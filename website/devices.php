@@ -24,7 +24,7 @@
         </div>
     </header>
 
-    <main role="main" class="inner cover">
+    <main class="inner cover">
         <h1 class="cover-heading">Devices.</h1>
         <?php
         $mysql = new mysqli("localhost", "raphi", "Luusbueb#02", "CO2");

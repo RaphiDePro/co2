@@ -29,7 +29,7 @@ $stmt->close();
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
     <title>CO2</title>
-    <link href="css/co2.css?<?Php echo time(); ?>" rel="stylesheet">
+    <link href="css/co2.css" rel="stylesheet">
 </head>
 
 <body class="text-center">
@@ -47,7 +47,7 @@ $stmt->close();
             <h3 class="masthead-brand">CO2</h3>
         </div>
     </header>
-    <main role="main" class="inner">
+    <main class="inner">
         <h2 class="cover-heading" onclick="showAirQualityChart()"><?Php echo end($sensorData)['time'] ?></h2>
         <canvas id="chart" class="chart"></canvas>
         <canvas id="chartAirQuality" class="airQualityChart"></canvas>
@@ -94,7 +94,7 @@ $stmt->close();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"
         integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
         crossorigin="anonymous"></script>
-<script type="text/javascript">
+<script>
     let landscape = false;
     if (screen.availHeight > screen.availWidth) {
         alert("For better diagrams use Landscape and reload page");
@@ -238,7 +238,7 @@ $stmt->close();
 
     //change chart data
     function showChart(type, title, color) {
-        let outputData = sensorData.slice(sensorData.length - 101, sensorData.length - 1); //Max 100
+        let outputData = sensorData.slice(sensorData.length - 401, sensorData.length - 1); //Max 400 else it would be to small
         document.getElementById('chart').style.height = mobile ? landscape ? "100vh" : "100vw" : "81vh"
         //Generate array with data
         const data = Array.from(outputData, v => type === 'ppm' ? v.co2 : type === '%' ? v.hum : v.temp);
