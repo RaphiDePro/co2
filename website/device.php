@@ -29,7 +29,7 @@ $stmt->close();
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
     <title>CO2</title>
-    <link href="css/co2.css" rel="stylesheet">
+    <link href="css/co2.css?<?Php echo time();?>" rel="stylesheet">
 </head>
 
 <body class="text-center">
@@ -97,7 +97,7 @@ $stmt->close();
 <script>
     let landscape = false;
     if (screen.availHeight > screen.availWidth) {
-        alert("For better diagrams use Landscape and reload page");
+        alert("For better diagrams turn your device and reload page");
     } else {
         landscape = true;
     }
@@ -181,9 +181,6 @@ $stmt->close();
         options: {
             responsive: false,
             maintainAspectRatio: false,
-            animation: {
-                duration: 2000
-            },
             scales: {
                 xAxes: [{
                     type: 'linear',
@@ -239,6 +236,7 @@ $stmt->close();
     //change chart data
     function showChart(type, title, color) {
         let outputData = sensorData.slice(sensorData.length - 401, sensorData.length - 1); //Max 400 else it would be to small
+        document.getElementById('chartAirQuality').style.height = "0"
         document.getElementById('chart').style.height = mobile ? landscape ? "100vh" : "100vw" : "81vh"
         //Generate array with data
         const data = Array.from(outputData, v => type === 'ppm' ? v.co2 : type === '%' ? v.hum : v.temp);
@@ -334,6 +332,7 @@ $stmt->close();
     }
 
     function showAirQualityChart() {
+        document.getElementById('chart').style.height = "0"
         document.getElementById('chartAirQuality').style.height = mobile ? landscape ? "100vh" : "100vw" : "81vh"
     }
 

@@ -175,6 +175,7 @@ body {
 .chart {
     height: 81vh;
     width: 97vw;
+    background-color: rgb(62, 62, 62);
 }
 
 .airQualityChart {
