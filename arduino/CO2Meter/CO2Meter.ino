@@ -11,6 +11,7 @@ String appEui = SECRET_APP_EUI;
 String appKey = SECRET_APP_KEY;
 
 void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
   while (!Serial);
 
@@ -36,12 +37,14 @@ void setup() {
 
   Serial.println("Connecting ...");
   int connected = modem.joinOTAA(appEui, appKey);
-//  while (!modem.joinOTAA(appEui, appKey));
+  //  while (!modem.joinOTAA(appEui, appKey));
 
   modem.minPollInterval(60);
 }
 
 void loop() {
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(500);
   if (airSensor.dataAvailable())
   {
     Serial.println();
@@ -49,12 +52,12 @@ void loop() {
     Serial.print("Humidity: "); Serial.print(airSensor.getHumidity()); Serial.print(" %\t");
     Serial.print("CO2: "); Serial.print(airSensor.getCO2()); Serial.println(" ppm");
 
-//  Save data in smallest possible data type
+    //  Save data in smallest possible data type
     int8_t roundedHumidity = round(airSensor.getHumidity());
-    int16_t roundedTemperature = round(airSensor.getTemperature() * 10);
+    int16_t roundedTemperature = round(airSensor.getTemperature() * 10); // *10 for 1 decimal place
     int16_t co2 = airSensor.getCO2();
 
-//  Put data into payload
+    //  Put data into payload
     byte payload[5];
     payload[0] = roundedHumidity; //int8_t has only one byte
     payload[1] = highByte(roundedTemperature);
@@ -62,7 +65,7 @@ void loop() {
     payload[3] = highByte(co2);
     payload[4] = lowByte(co2);
 
-//  Send payload
+    //  Send payload
     int err;
     modem.beginPacket();
     modem.write(payload, sizeof(payload));
@@ -73,26 +76,26 @@ void loop() {
       Serial.println("Error sending message :(");
     }
     delay(1000);
-//    if (!modem.available()) {
-//      Serial.println("No downlink message received at this time.");
-//      return;
-//    }
-//    char rcv[64];
-//    int i = 0;
-//    while (modem.available()) {
-//      rcv[i++] = (char)modem.read();
-//    }
-//    Serial.print("Received: ");
-//    for (unsigned int j = 0; j < i; j++) {
-//      Serial.print(rcv[j] >> 4, HEX);
-//      Serial.print(rcv[j] & 0xF, HEX);
-//      Serial.print(" ");
-//    }
-//    Serial.println();
+    //    if (!modem.available()) {
+    //      Serial.println("No downlink message received at this time.");
+    //      return;
+    //    }
+    //    char rcv[64];
+    //    int i = 0;
+    //    while (modem.available()) {
+    //      rcv[i++] = (char)modem.read();
+    //    }
+    //    Serial.print("Received: ");
+    //    for (unsigned int j = 0; j < i; j++) {
+    //      Serial.print(rcv[j] >> 4, HEX);
+    //      Serial.print(rcv[j] & 0xF, HEX);
+    //      Serial.print(" ");
+    //    }
+    //    Serial.println();
   }
-//  else {
-//    Serial.print(".");
-//  }
+  else {
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
 
-  delay(1000);
+  delay(500);
 }
