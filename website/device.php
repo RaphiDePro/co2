@@ -29,7 +29,7 @@ $stmt->close();
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
     <title>CO2</title>
-    <link href="css/co2.css?<?php echo time(); ?>" rel="stylesheet">
+    <link href="css/co2.css?<?Php echo time(); ?>" rel="stylesheet">
 </head>
 
 <body class="text-center">
@@ -72,7 +72,8 @@ $stmt->close();
                     <p class="card-text"><?Php echo end($sensorData)['temp'] ?> °C</p>
                 </div>
             </div>
-            <div class="card cardShort rounded-3 bg-info" onclick="showChart('%', 'Humidity', 'rgb(13,202,240)', false)">
+            <div class="card cardShort rounded-3 bg-info"
+                 onclick="showChart('%', 'Humidity', 'rgb(13,202,240)', false)">
                 <div class="card-body">
                     <h5 class="card-title">Humidity</h5>
                     <p class="card-text"><?Php echo end($sensorData)['hum'] ?> %</p>
@@ -94,6 +95,18 @@ $stmt->close();
         integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA=="
         crossorigin="anonymous"></script>
 <script type="text/javascript">
+    let landscape = false;
+    if (screen.availHeight > screen.availWidth) {
+        alert("For better diagrams use Landscape and reload page");
+    } else {
+        landscape = true;
+    }
+
+    let mobile = false;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        mobile = true;
+    }
+
     let sensorData = <?Php echo json_encode($sensorData); ?>;
 
     //chart
@@ -121,7 +134,7 @@ $stmt->close();
                 xAxes: [{
                     type: 'time',
                     scaleLabel: {
-                        display: true,
+                        display: !mobile,
                         labelString: 'Time'
                     },
                     gridLines: {
@@ -139,7 +152,7 @@ $stmt->close();
                         stepSize: 200
                     },
                     scaleLabel: {
-                        display: true,
+                        display: !mobile,
                         labelString: 'ppm'
                     }
                 }]
@@ -226,13 +239,23 @@ $stmt->close();
     //change chart data
     function showChart(type, title, color) {
         let outputData = sensorData.slice(sensorData.length - 101, sensorData.length - 1); //Max 100
-        document.getElementById('chart').style.height = "81vh"
+        document.getElementById('chart').style.height = mobile ? landscape ? "100vh" : "100vw" : "81vh"
+        //Generate array with data
         const data = Array.from(outputData, v => type === 'ppm' ? v.co2 : type === '%' ? v.hum : v.temp);
+
         const dataset = window.chart.config.data.datasets[0];
+
+        //set labels
         window.chart.config.data.labels = Array.from(outputData, v => v.time)
+
+        //set data / title
         dataset.data = data;
         dataset.label = title;
+
+        //Background color
         if (color === 'gradient') {
+
+            //create gradient for co2 good/bad values
             dataset.borderColor = function (context) {
                 const chartArea = context.chart.chartArea;
 
@@ -286,9 +309,12 @@ $stmt->close();
                 return gradient;
             };
         } else {
+            //set normal colors
             dataset.borderColor = color;
             dataset.backgroundColor = color;
         }
+
+        //Set y axes
         const y = window.chart.config.options.scales.yAxes[0];
         y.scaleLabel.labelString = type;
         if (type === 'ppm') {
@@ -308,13 +334,13 @@ $stmt->close();
     }
 
     function showAirQualityChart() {
-        document.getElementById('chartAirQuality').style.height = "81vh"
+        document.getElementById('chartAirQuality').style.height = mobile ? landscape ? "100vh" : "100vw" : "81vh"
     }
 
 
     //remove chart on scroll
     window.addEventListener("scroll", function () {
-        if (window.pageYOffset > 0) {
+        if (!mobile || window.pageYOffset > 200) {
             document.getElementById('chart').style.height = "0"
             document.getElementById('chartAirQuality').style.height = "0"
             setTimeout(function () {

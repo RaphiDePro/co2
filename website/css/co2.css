@@ -132,6 +132,12 @@ body {
     padding-top: 25%;
 }
 
+@media (max-width: 576px) {
+    .card {
+        margin-left: 25vw;
+    }
+}
+
 @media (min-width: 52em) {
     .card {
         margin: 2rem 2rem;
@@ -148,7 +154,7 @@ body {
 
     .cardShort {
         height: 30vw;
-        width: 33.33vw; /* as @passatgt mentioned in the comment, for the older browsers fallback */
+        width: 33.33vw; /* for the older browsers fallback */
         width: calc(100vw / 3);
     }
 }
@@ -176,6 +182,26 @@ body {
     width: 97vw;
     background-size: 100% 100%;
     background-image: url('../airquality.png');
+}
+
+@media (max-width: 52em) {
+    .chart {
+        height: 100vw;
+    }
+
+    .airQualityChart {
+        height: 100vw;
+    }
+}
+
+@media screen and (max-width: 52em) and (orientation: landscape) {
+    .chart {
+        height: 100vh;
+    }
+
+    .airQualityChart {
+        height: 100vh;
+    }
 }
 
 /*Hide Scrollbar*/
