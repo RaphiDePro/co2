@@ -1,5 +1,5 @@
 <?php
-$mysql = new mysqli("localhost", "raphi", "Luusbueb#02", "CO2");
+$mysql = new mysqli("localhost", "ch53807_raphi", "Luusbueb#02", "ch53807_CO2");
 $mysql->set_charset("utf8");
 
 $stmt = $mysql->prepare("SELECT `time`, `temp`, `hum`, `co2` FROM `sensor_data` WHERE `dev_id` = ? ORDER BY `time` ASC");
@@ -37,7 +37,7 @@ $stmt->close();
 <div class="d-flex h-100 p-3 mx-auto flex-column">
     <header class="masthead mb-auto">
         <div class="inner">
-            <a href="/devices" class="btn back masthead-brand" style="color: white">
+            <a href="/devices.php" class="btn back masthead-brand" style="color: white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-chevron-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"

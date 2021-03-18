@@ -18,8 +18,7 @@
             <h3 class="masthead-brand">CO2</h3>
             <nav class="nav nav-masthead justify-content-center">
                 <a class="nav-link" href="/">Home</a>
-                <a class="nav-link active" href="/devices">Devices</a>
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link active" href="/devices.php">Devices</a>
             </nav>
         </div>
     </header>
@@ -27,7 +26,7 @@
     <main class="inner cover">
         <h1 class="cover-heading">Devices.</h1>
         <?php
-        $mysql = new mysqli("localhost", "raphi", "Luusbueb#02", "CO2");
+        $mysql = new mysqli("localhost", "ch53807_raphi", "Luusbueb#02", "ch53807_CO2");
         $mysql->set_charset("utf8");
 
         $stmt = $mysql->prepare("SELECT `dev_id`, `name`, `room` FROM `devices`");
@@ -38,7 +37,7 @@
         //Get devices and make a button per device
         while ($stmt->fetch()) {
             echo "<p class='lead'>
-                    <a href='/device?id=$dev_id' class='btn btn-lg btn-secondary'>$dev_id $name $room</a>
+                    <a href='/device.php?id=$dev_id' class='btn btn-lg btn-secondary'>$dev_id $name $room</a>
                  </p>";
         }
 
