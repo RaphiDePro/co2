@@ -37,7 +37,7 @@ $stmt->close();
 <div class="d-flex h-100 p-3 mx-auto flex-column">
     <header class="masthead mb-auto">
         <div class="inner">
-            <a href="/devices.php" class="btn back masthead-brand" style="color: white">
+            <a href="/devices" class="btn back masthead-brand" style="color: white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-chevron-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"

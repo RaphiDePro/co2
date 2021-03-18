@@ -18,7 +18,7 @@
             <h3 class="masthead-brand">CO2</h3>
             <nav class="nav nav-masthead justify-content-center">
                 <a class="nav-link" href="/">Home</a>
-                <a class="nav-link active" href="/devices.php">Devices</a>
+                <a class="nav-link active" href="/devices">Devices</a>
             </nav>
         </div>
     </header>
@@ -37,7 +37,7 @@
         //Get devices and make a button per device
         while ($stmt->fetch()) {
             echo "<p class='lead'>
-                    <a href='/device.php?id=$dev_id' class='btn btn-lg btn-secondary'>$dev_id $name $room</a>
+                    <a href='/device?id=$dev_id' class='btn btn-lg btn-secondary'>$dev_id $name $room</a>
                  </p>";
         }
 
